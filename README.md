@@ -17,10 +17,10 @@ let slices = SplitSlice([slice1, slice2]);
 assert_eq!(slices.len(), 3);
 for (i, word) in slices.iter().enumerate() {
     match i {
-        0 => assert_eq!(word, "Hello"),
-        1 => assert_eq!(word, "world"),
-        2 => assert_eq!(word, "!"),
-        _ => unreachable()!,
+        0 => assert_eq!(word, &"Hello"),
+        1 => assert_eq!(word, &"world"),
+        2 => assert_eq!(word, &"!"),
+        _ => unreachable!(),
     }
 }
 ```
@@ -30,10 +30,10 @@ use splitslice::SplitStr;
 
 let str1 = "Hello, ";
 let str2 = "world!";
-let strs = SplitStr([str1, str2]);
-assert_eq!(slice.len(), 13);
+let strs = SplitStr::new([str1, str2]);
+assert_eq!(strs.len(), 13);
 assert_eq!(format!("{strs:?}"), "\"Hello, world!\"");
-for (i, c) in slice.chars().enumerate() {
+for (i, c) in strs.chars().enumerate() {
     match i {
         0 => assert_eq!(c, 'H'),
         1 => assert_eq!(c, 'e'),
@@ -48,7 +48,7 @@ for (i, c) in slice.chars().enumerate() {
         10 => assert_eq!(c, 'l'),
         11 => assert_eq!(c, 'd'),
         12 => assert_eq!(c, '!'),
-        _ => unreachable()!,
+        _ => unreachable!(),
     }
 }
 ```
