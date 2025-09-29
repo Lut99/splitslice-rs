@@ -1,0 +1,15 @@
+[package]
+name = "splitslice"
+version = "0.1.0"
+edition = "2024"
+authors = ["Lut99"]
+repository = "https://github.com/Lut99/splitslice-rs"
+description = ""
+license = "Apache-2.0"
+
+
+[dependencies]
+
+
+[features]
+default = []

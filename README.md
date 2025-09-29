@@ -1,2 +1,77 @@
-# splitstr-rs
-A small library contributing a type for pretending multiple string slices are one.
+# splitslice-rs
+A small library contributing a type for pretending multiple slices are one.
+
+
+## Usage
+This library provides two types:
+- `SplitSlice` can be used to do some of the slice operations on multiple slices as if they are one; and
+- `SplitStr` can be used to do some of the slice + `str` operations on multiple `str`s as if they are one.
+
+For example:
+```rust
+use splitslice::SplitSlice;
+
+let slice1 = &["Hello"];
+let slice2 = &["world", "!"];
+let slices = SplitSlice([slice1, slice2]);
+assert_eq!(slices.len(), 3);
+for (i, word) in slices.iter().enumerate() {
+    match i {
+        0 => assert_eq!(word, "Hello"),
+        1 => assert_eq!(word, "world"),
+        2 => assert_eq!(word, "!"),
+        _ => unreachable()!,
+    }
+}
+```
+or for strings:
+```rust
+use splitslice::SplitStr;
+
+let str1 = "Hello, ";
+let str2 = "world!";
+let strs = SplitStr([str1, str2]);
+assert_eq!(slice.len(), 13);
+assert_eq!(format!("{strs:?}"), "\"Hello, world!\"");
+for (i, c) in slice.chars().enumerate() {
+    match i {
+        0 => assert_eq!(c, 'H'),
+        1 => assert_eq!(c, 'e'),
+        2 => assert_eq!(c, 'l'),
+        3 => assert_eq!(c, 'l'),
+        4 => assert_eq!(c, 'o'),
+        5 => assert_eq!(c, ','),
+        6 => assert_eq!(c, ' '),
+        7 => assert_eq!(c, 'w'),
+        8 => assert_eq!(c, 'o'),
+        9 => assert_eq!(c, 'r'),
+        10 => assert_eq!(c, 'l'),
+        11 => assert_eq!(c, 'd'),
+        12 => assert_eq!(c, '!'),
+        _ => unreachable()!,
+    }
+}
+```
+
+You can also construct `SplitStr`s from `SplitSlice`s over bytes (`u8`). See `SplitSlice::as_str()` for more information.
+
+
+## Installation
+You can use this library by adding it to your `Cargo.toml`:
+```toml
+[dependencies]
+splitslice = { git = "https://github.com/Lut99/splitslice-rs" }
+```
+Optionally, you can use a specific tag:
+```toml
+[dependencies]
+splitslice = { git = "https://github.com/Lut99/splitslice-rs", tag = "v0.1.0" }
+```
+
+
+## Contributing
+Contributions to this crate are welcome! If you are interested, [file an issue](https://github.com/splitslice-rs/issues) or [create a pull request](https://github.com/splitslice-rs/pulls).
+
+
+## License
+This project is licensed under the Apache 2.0 license. See [`./LICENSE`](./LICENSE) for more information.
