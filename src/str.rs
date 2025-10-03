@@ -262,6 +262,23 @@ impl<'a, const N: usize> SplitStr<'a, N> {
     }
 }
 
+// Ops
+impl<'a, const N: usize, T: AsRef<str>> PartialEq<T> for SplitStr<'a, N> {
+    #[inline]
+    fn eq(&self, other: &T) -> bool {
+        let other: &str = other.as_ref();
+        if self.len() != other.len() {
+            return false;
+        }
+        for (&b1, b2) in self.iter().zip(other.bytes()) {
+            if b1 != b2 {
+                return false;
+            }
+        }
+        true
+    }
+}
+
 // Iterators
 impl<'a, const N: usize> SplitStr<'a, N> {
     /// Returns an iterator over the characters in the string.
@@ -352,6 +369,8 @@ impl<'a, const N: usize> TryFrom<SplitSlice<'a, N, u8>> for SplitStr<'a, N> {
 /***** TESTS *****/
 #[cfg(test)]
 mod tests {
+    use std::borrow::Cow;
+
     use super::*;
 
     #[test]
@@ -529,5 +548,14 @@ mod tests {
         assert_eq!(chars.next_back(), Some((0, 'H')));
         assert_eq!(chars.next_back(), None);
         assert_eq!(chars.next_back(), None);
+    }
+
+    #[test]
+    fn test_partial_eq_str() {
+        let strs = SplitStr::new(["Hello, ", "world!"]);
+        assert_eq!(strs, "Hello, world!");
+        assert_eq!(strs, &"Hello, world!");
+        assert_eq!(strs, String::from("Hello, world!"));
+        assert_eq!(strs, Cow::Borrowed("Hello, world!"));
     }
 }
